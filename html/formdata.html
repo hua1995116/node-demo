@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" id="file">
+    <button id="submit">上传</button>
+<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+<script>
+submit.onclick = () => {
+    const file = document.getElementById('file').files[0];
+    const form = new FormData();
+    form.append('file', file);
+
+    axios.post('http://localhost:7787/files', form).then(res => {
+        console.log(res.data);
+    });
+
+    // fetch('http://localhost:7787/files', {
+    //     method: 'POST',
+    //     body: form
+    // }).then(res => res.json()).then(res => {console.log(res)});
+
+    // var xhr = new XMLHttpRequest();
+    // xhr.open('POST', 'http://localhost:7787/files', true);
+    // xhr.onload = function () {
+    //     console.log(xhr.responseText);
+    // };
+    // xhr.send(form);
+}
+
+</script>
+</body>
+</html>

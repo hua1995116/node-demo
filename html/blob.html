@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" id="file">
+    <button id="submit">上传</button>
+<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+<script>
+submit.onclick = () => {
+    const json = { hello: "world" };
+    const blob = new Blob([JSON.stringify(json, null, 2)], { type: 'application/json' });
+    
+    const form = new FormData();
+    form.append('file', blob, '1.json');
+
+    // const file = new File([blob], '1.json');
+    // form.append('file', file);
+
+    axios.post('http://localhost:7787/files', form).then(res => {
+        console.log(res.data);
+    })
+}
+</script>
+</body>
+</html>
