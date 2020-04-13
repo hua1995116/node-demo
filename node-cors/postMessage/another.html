@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>inner</title>
+</head>
+
+<body>
+    <div>hello</div>
+    <script>
+        window.onmessage = (e) => {
+            console.log(e.data)
+            e.source.postMessage(e.data, e.origin)
+        }
+    </script>
+</body>
+
+</html>

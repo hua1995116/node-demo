@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dmeo</title>
+</head>
+<body>
+<button id="getlist">获取列表</button>
+<button id="login">登录</button>
+<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+<script>
+    axios.defaults.withCredentials = true;
+    getlist.onclick = () => {
+        axios.get('http://127.0.0.1:7777/http://127.0.0.1:8080/api/corslist').then(res => {console.log(res.data)});
+    }
+    login.onclick = () => {
+        axios.post('http://127.0.0.1:7777/http://127.0.0.1:8080/api/login');
+    }
+</script>
+</body>
+</html>

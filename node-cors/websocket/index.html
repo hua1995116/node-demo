@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>websocket</title>
+</head>
+
+<body>
+    <script>
+        let socket = new WebSocket('ws://localhost:8080');
+        socket.onopen = function () {
+            socket.send('秋风的笔记');
+        }
+        socket.onmessage = function (e) {
+            console.log(e.data);
+        }
+    </script>
+</body>
+
+</html>

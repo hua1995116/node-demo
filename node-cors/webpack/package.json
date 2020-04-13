@@ -1,0 +1,12 @@
+{
+  "name": "webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "webpack": "../node_modules/.bin/webpack-dev-server"
+  },
+  "keywords": [],
+  "author": "hua1995116 <qiufneghyf@gmail.com> (https://github.com/hua1995116)",
+  "license": "MIT"
+}

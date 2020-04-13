@@ -1,0 +1,28 @@
+{
+  "name": "koa-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "node client.js",
+    "server": "node server.js",
+    "normal-server": "node normaol-server.js"
+  },
+  "keywords": [],
+  "author": "hua1995116 <qiufneghyf@gmail.com> (https://github.com/hua1995116)",
+  "license": "MIT",
+  "dependencies": {
+    "cors-anywhere": "^0.4.1",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-cors": "0.0.16",
+    "koa-router": "^8.0.8"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^4.2.0",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "ws": "^7.2.3"
+  }
+}

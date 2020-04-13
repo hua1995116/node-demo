@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+</head>
+
+<body>
+    <iframe src="http://localhost:8080" frameborder="0" id="iframe" onload="load()"></iframe>
+
+    <script>
+        function load() {
+            iframe.contentWindow.postMessage('秋风的笔记', 'http://localhost:8080')
+            window.onmessage = (e) => {
+                console.log(e.data)
+            }
+        }
+    </script>
+</body>
+
+</html>
