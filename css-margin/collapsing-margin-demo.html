@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .case1 {
+            height: 50px;
+            background: red;
+            margin-top: 100px;
+        }
+
+        .case1-inner {
+            margin-top: 50px;
+        }
+
+        .case2 {
+            height: 150px;
+            background: red;
+        }
+
+        .case2-inner1 {
+            margin-bottom: 50px;
+        }
+
+        .case2-inner2 {
+            margin-top: 20px;
+        }
+
+        .case3 {
+            height: auto;
+            background: red;
+            margin-bottom: 10px;
+        }
+
+        .case3-inner {
+            margin-bottom: 50px;
+        }
+
+        .case4 {
+            height: 200px;
+            background: red;
+        }
+
+        .case4-inner {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        p {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="case1">
+        <div class="case1-inner">我直接从顶部开始了</div>
+    </div>
+    <br>
+    <br>
+    <div class="case2">
+        <div class="case2-inner1">我和底下之间距离为50px</div>
+        <div class="case2-inner2">我和顶上之间距离为50px</div>
+    </div>
+    <br>
+    <br>
+    <div class="case3">
+        <div class="case3-inner">底部和父元素被合并了</div>
+    </div>
+    <div>距离顶上50px</div>
+    <br>
+    <br>
+    <div class="case4">
+        <p>它把自己给合并了，距离底下30px</p>
+        <div class="case4-inner"><span style="clear: both;"></span></div>
+        <p>它把自己给合并了, 距离顶上30px</p>
+    </div>
+
+
+</body>
+
+</html>
