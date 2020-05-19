@@ -12,7 +12,11 @@
 <script>
     axios.defaults.withCredentials = true;
     getlist.onclick = () => {
-        axios.get('http://127.0.0.1:8080/api/corslist').then(res => {console.log(res.data)});
+        axios.get('http://127.0.0.1:8080/api/corslist', {
+            headers: {
+                dd: 'xx'
+            }
+        }).then(res => {console.log(res.data)});
     }
     login.onclick = () => {
         axios.post('http://127.0.0.1:8080/api/login');

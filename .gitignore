@@ -47,3 +47,4 @@ Temporary Items
 .apdisk
 node_modules
 happy-file
+.parcel-cache

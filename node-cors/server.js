@@ -7,6 +7,7 @@ const app = new Koa();
 const token = 'dwqwqe1231';
 
 app.use(async (ctx, next) => {
+    ctx.set('Access-Control-Max-Age', 600);
     ctx.set('Access-Control-Allow-Origin', ctx.headers.origin);
     ctx.set('Access-Control-Allow-Credentials', true)
     ctx.set('Access-Control-Request-Method', 'PUT,POST,GET,DELETE,OPTIONS')
