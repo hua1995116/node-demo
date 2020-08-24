@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>分片流传输</title>
+        <script type="text/javascript">
+            function jump() {
+                const player = document.getElementById('musicPlayer');
+                // 从30s开始播放
+                player.currentTime = 30;
+            }
+        </script>
+    </head>
+    <body>
+        <!-- <audio id="musicPlayer" src="http:127.0.0.1:3000/source.mp3" controls></audio> -->
+        <video src="./3-7.mp4"></video>
+        <button onclick="jump()">切到30s</button>
+    </body>
+</html>

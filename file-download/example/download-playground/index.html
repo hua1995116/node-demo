@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秋风的笔记-download-playground</title>
+</head>
+
+<body>
+    <textarea name="" id="textarea" cols="30" rows="10"></textarea>
+    <p><button id="btn">下载</button></p>
+    <script>
+        btn.onclick = async () => {
+            const handler = await window.chooseFileSystemEntries({
+                type: 'save-file',
+                accepts: [{
+                    description: 'Text file',
+                    extensions: ['txt'],
+                    mimeTypes: ['text/plain'],
+                }],
+            });
+
+            const writer = await handler.createWritable();
+            await writer.write(textarea.value);
+            await writer.close();
+        }
+    </script>
+</body>
+
+</html>

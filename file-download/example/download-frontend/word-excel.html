@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div id="ccc">
+    <h1>123</h1>
+    <p>hello</p>
+</div>
+<a id="exportWord">导出word</a>
+
+<p></p>
+
+<table id="aaa">
+    <thead>
+        <tr>
+            <td><b>title1</b></td>
+            <td><b>title2</b></td>
+            <td><b>title3</b></td>
+            <td><b>title4</b></td>
+            <td><b>title5</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+    </tbody>
+</table>
+<a id="exportExcel">导出excel</a>
+<script>
+
+// function exportToWord(tableid) {
+//     tableToExcel('ccc');
+// }
+
+var tableToDoc = (function() {
+    var uri = ' data:application/msword;base64,',
+        template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" '
+            +'xmlns:x="urn:schemas-microsoft-com:office:word" '
+            +'xmlns="http://www.w3.org/TR/REC-html40">'
+            +'<head>'
+            +'</head>'
+            +'<body>{table}</body>'
+            +'</html>',
+
+        base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },
+        format = function(s, c) {
+            return s.replace(/{(\w+)}/g,
+                function(m, p) { return c[p]; }) }
+
+    return function(table, name) {
+        if (!table.nodeType) table = document.getElementById(table)
+        var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+        document.getElementById("exportWord").href = uri + base64(format(template, ctx));
+        document.getElementById("exportWord").download = "1.doc";
+    }
+})()
+tableToDoc('ccc');
+
+
+var tableToExcel = (function() {
+    var uri = 'data:application/vnd.ms-excel;base64,',
+        template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" '
+            +'xmlns:x="urn:schemas-microsoft-com:office:excel" '
+            +'xmlns="http://www.w3.org/TR/REC-html40">'
+            +'<head>'
+            +'</head>'
+            +'<body><table border="1" style="width:60%;text-align: center; "  align="center" >{table}</table></body>'
+            +'</html>',
+
+        base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },
+        format = function(s, c) {
+            return s.replace(/{(\w+)}/g,
+                function(m, p) { return c[p]; }) }
+
+    return function(table, name) {
+        if (!table.nodeType) table = document.getElementById(table)
+        var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+        document.getElementById("exportExcel").href = uri + base64(format(template, ctx));
+        document.getElementById("exportExcel").download = "file.xls";
+    }
+})()
+
+tableToExcel('aaa')
+
+</script>
+</body>
+</html>

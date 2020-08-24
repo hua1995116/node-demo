@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="oBtnDownload">点击下载</button>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+    <script>
+        function download(url) {
+            const req = new XMLHttpRequest();
+            req.open("GET", url, true);
+            req.responseType = "blob";
+            req.withCredentials = true;   
+            req.onload = function (oEvent) {
+                const content = req.response;
+                const aTag = document.createElement('a');
+                aTag.download = url.split('/').pop();
+                const blob = new Blob([content])
+                const blobUrl = URL.createObjectURL(blob);
+                aTag.href = blobUrl;
+                aTag.click();
+                URL.revokeObjectURL(blob);
+            };
+            req.send();
+        }
+        oBtnDownload.onclick = function(){
+            axios.get('http://localhost:8888/api/downloadUrl').then(res => {
+                if(res.data.code === 0) {
+                    download(res.data.data.url);
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

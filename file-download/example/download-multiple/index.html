@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>multiple</title>
+</head>
+<button id="download1">串行下载</button>
+<button id="download2">多线程下载</button>
+<body>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+    <script>
+        // buffer 合并 https://stackoverflow.com/questions/39502374/javascript-combine-arraybuffer-parts
+        // https://louiswt.github.io/2019/06/10/browser-binary/
+        function download(url, start, end, i) {
+            return new Promise((resolve, reject) => {
+                const req = new XMLHttpRequest();
+                req.open("GET", url, true);
+                req.setRequestHeader('range', `bytes=${start}-${end}`)
+                req.responseType = "blob";
+                req.withCredentials = true;
+                req.onload = function (oEvent) {
+                    console.log(req.response);
+                    req.response.arrayBuffer().then(res => {
+                        resolve({
+                            i,
+                            buffer: res
+                        });
+                    })
+                    // const content = req.response;
+                    // const aTag = document.createElement('a');
+                    // aTag.download = url.split('/').pop();
+                    // const blob = new Blob([content])
+                    // const blobUrl = URL.createObjectURL(blob);
+                    // aTag.href = blobUrl;
+                    // aTag.click();
+                    // URL.revokeObjectURL(blob);
+                };
+                req.send();
+            })
+        }
+        function concatenate(resultConstructor, arrays) {
+            console.log(arrays);
+            let totalLength = 0;
+            for (let arr of arrays) {
+                console.log(arr, arr.length);
+                totalLength += arr.length;
+            }
+            let result = new resultConstructor(totalLength);
+            let offset = 0;
+            for (let arr of arrays) {
+                result.set(arr, offset);
+                offset += arr.length;
+            }
+            return result;
+        }
+        const m = 1024 * 1024;
+        const url = 'http://localhost:8888/api/rangeFile?filename=360_0388.jpg';
+        download1.onclick = () => {
+            console.time("直接下载");
+            function download(url) {
+                const req = new XMLHttpRequest();
+                req.open("GET", url, true);
+                req.responseType = "blob";
+                req.withCredentials = true;
+                req.onload = function (oEvent) {
+                    const content = req.response;
+                    const aTag = document.createElement('a');
+                    aTag.download = '360_0388.jpg';
+                    const blob = new Blob([content])
+                    const blobUrl = URL.createObjectURL(blob);
+                    aTag.href = blobUrl;
+                    aTag.click();
+                    URL.revokeObjectURL(blob);
+                    console.timeEnd("直接下载");
+                };
+                req.send();
+            }
+            download(url);
+        }
+        download2.onclick = () => {
+            axios({
+                url,
+                method: 'head',
+            }).then((res) => {
+                console.time("并发下载");
+                console.log(res.headers['content-length']);
+                const size = Number(res.headers['content-length']);
+                const length = parseInt(size / m);
+                const arr = []
+                for (let i = 0; i < length; i++) {
+                    let start = i * m;
+                    let end = (i == length - 1) ?  size - 1  : (i + 1) * m - 1;
+                    console.log(start, end);
+                    arr.push(download(url, start, end, i))
+                }
+                Promise.all(arr).then(res => {
+                    const arrBufferList = res.sort(item => item.i - item.i).map(item => new Uint8Array(item.buffer));
+                    console.log(arrBufferList);
+                    const allBuffer = concatenate(Uint8Array, arrBufferList);
+                    console.log(allBuffer);
+                    const blob = new Blob([allBuffer], {type: 'image/jpeg'});
+                    const blobUrl = URL.createObjectURL(blob);
+                    const aTag = document.createElement('a');
+                    aTag.download = '360_0388.jpg';
+                    aTag.href = blobUrl;
+                    aTag.click();
+                    URL.revokeObjectURL(blob);
+                    console.timeEnd("并发下载");
+                })
+            })
+        }
+        
+    </script>
+</body>
+
+</html>

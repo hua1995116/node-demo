@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>file-dowanload</title>
+</head>
+
+<body>
+<textarea name="" id="text" cols="30" rows="10"></textarea>
+<button id="textBtn">下载文本</button>
+<p></p>
+<textarea name="" id="json" cols="30" rows="10" disabled>
+{
+    "name": "秋风的笔记"
+}
+</textarea>
+<button id="jsonBtn">下载JSON</button>
+<script>
+    // function str2ab(str) {
+    //     var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+    //     var bufView = new Uint16Array(buf);
+    //     for (var i=0, strLen=str.length; i < strLen; i++) {
+    //         bufView[i] = str.charCodeAt(i);
+    //     }
+    //     return buf;
+    // }
+    function downloadFun(obj, type, filename) {
+        const blob = new Blob([obj], {type});
+        const blobUrl = URL.createObjectURL(blob);
+        const aTag = document.createElement('a');
+        aTag.download = filename;
+        aTag.href = blobUrl;
+        aTag.click();
+        URL.revokeObjectURL(blob);
+    }
+    textBtn.onclick = () => {
+        const value = text.value;
+        downloadFun(value, 'text/plain', 'hello.txt');
+    }
+    jsonBtn.onclick = () => {
+        const value = json.value;
+        downloadFun(value, 'application/json', 'hello.json');
+    }
+</script>
+</body>
+
+</html>
