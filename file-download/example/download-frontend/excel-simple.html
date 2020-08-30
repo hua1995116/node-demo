@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下载excel</title>
+</head>
+<body>
+    <table id="excel" border="1">
+        <thead>
+            <tr>
+                <td><b>title1</b></td>
+                <td><b>title2</b></td>
+                <td><b>title3</b></td>
+                <td><b>title4</b></td>
+                <td><b>title5</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>秋风的笔记</td>
+                <td>秋风的笔记</td>
+                <td>秋风的笔记</td>
+                <td>秋风的笔记</td>
+                <td>秋风的笔记</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>6</td>
+                <td>6</td>
+                <td>6</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>6</td>
+                <td>6</td>
+                <td>6</td>
+                <td>6</td>
+            </tr>
+        </tbody>
+    </table>
+<button id="excelButton">导出</button>
+
+<script type="module">
+import {downloadByContent} from '../js/utils.js';
+excelButton.onclick = () => {
+    const template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" '
+            +'xmlns:x="urn:schemas-microsoft-com:office:excel" '
+            +'xmlns="http://www.w3.org/TR/REC-html40">'
+            +'<head>'
+            +'</head>'
+            +'<body><table border="1" style="width:60%; text-align: center;">{table}</table><\/body>'
+            +'<\/html>';
+    const context = template.replace('{table}', document.getElementById('excel').innerHTML);
+    downloadByContent(context, 'qiufeng.blue.xls', 'application/vnd.ms-excel');
+}
+</script>
+</body>
+</html>

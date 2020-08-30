@@ -1,11 +1,11 @@
-const Koa = require('../node-cors/node_modules/koa');
-const router = require('../node-cors/node_modules/koa-router')();
-const koaBody = require('../node-cors/node_modules/koa-body');
+const Koa = require('koa');
+const router = require('koa-router')();
+const koaBody = require('koa-body');
 const fs = require('fs');
 const path = require('path');
-const mime = require('../node-cors/node_modules/mime');
-const serve = require('../node-cors/node_modules/koa-static');
-const mount = require('../node-cors/node_modules/koa-mount');
+const mime = require('mime');
+const serve = require('koa-static');
+const mount = require('koa-mount');
 const app = new Koa();
 
 function getRange(range) {
@@ -68,21 +68,18 @@ router.head('/api/rangeFile', async (ctx) => {
     ctx.length = stats.size;
     ctx.status = 200;
     return;
-    // ctx.body = '';
 })
 
 router.get('/api/rangeFile', async(ctx) => {
     const { filename } = ctx.query;
     const { size } = fs.statSync(path.join(__dirname, './static/', filename));
     const range = ctx.headers['range'];
-    // 3、通知浏览器可以进行分部分请求
     if (!range) {
         ctx.set('Accept-Ranges', 'bytes');
         ctx.body = fs.readFileSync(path.join(__dirname, './static/', filename));
         return;
     }
     const { start, end } = getRange(range);
-    // 4、检查请求范围
     if (start >= size || end >= size) {
         ctx.response.status = 416;
         ctx.set('Content-Range', `bytes */${size}`);

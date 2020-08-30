@@ -8,17 +8,12 @@
 <body>
     <button id="oBtnDownload">点击下载</button>
 <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
-<script>
-function download(url) {
-    const aTag = document.createElement('a');
-    aTag.download = url.split('/').pop();
-    aTag.href = url;
-    aTag.click()
-}
+<script type="module">
+import {downloadDirect} from '../js/utils.js';
 oBtnDownload.onclick = function(){
     axios.get('http://localhost:8888/api/downloadUrl').then(res => {
         if(res.data.code === 0) {
-            download(res.data.data.url);
+            downloadDirect(res.data.data.url);
         }
     })
 }

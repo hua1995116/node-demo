@@ -7,8 +7,8 @@
 </head>
 <body>
 <div id="ccc">
-    <h1>123</h1>
-    <p>hello</p>
+    <h1>hello</h1>
+    <p>秋风的笔记</p>
 </div>
 <a id="exportWord">导出word</a>
 
@@ -28,33 +28,28 @@
         <tr>
             <td>1</td>
             <td>2</td>
-            <td>2</td>
             <td>3</td>
             <td>4</td>
+            <td>5</td>
         </tr>
         <tr>
             <td>1</td>
             <td>2</td>
-            <td>2</td>
             <td>3</td>
             <td>4</td>
+            <td>5</td>
         </tr>
         <tr>
             <td>1</td>
             <td>2</td>
-            <td>2</td>
             <td>3</td>
             <td>4</td>
+            <td>5</td>
         </tr>
     </tbody>
 </table>
 <a id="exportExcel">导出excel</a>
 <script>
-
-// function exportToWord(tableid) {
-//     tableToExcel('ccc');
-// }
-
 var tableToDoc = (function() {
     var uri = ' data:application/msword;base64,',
         template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" '
@@ -73,11 +68,11 @@ var tableToDoc = (function() {
     return function(table, name) {
         if (!table.nodeType) table = document.getElementById(table)
         var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
-        document.getElementById("exportWord").href = uri + base64(format(template, ctx));
-        document.getElementById("exportWord").download = "1.doc";
+        console.log(format(template, ctx));
+        return format(template, ctx);
     }
 })()
-tableToDoc('ccc');
+
 
 
 var tableToExcel = (function() {
@@ -105,6 +100,20 @@ var tableToExcel = (function() {
 
 tableToExcel('aaa')
 
+
+function downloadFun(obj, type, filename) {
+    const blob = new Blob([obj], {type});
+    const blobUrl = URL.createObjectURL(blob);
+    const aTag = document.createElement('a');
+    aTag.download = filename;
+    aTag.href = blobUrl;
+    aTag.click();
+    URL.revokeObjectURL(blob);
+}
+exportWord.onclick=() => {
+    const blob = tableToDoc('ccc');
+    downloadFun(blob, 'application/msword', '1.doc')
+}
 </script>
 </body>
 </html>

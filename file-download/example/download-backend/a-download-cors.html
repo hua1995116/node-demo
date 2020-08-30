@@ -5,28 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
 </head>
 
 <body>
     <button id="oBtnDownload">点击下载</button>
-    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
-    <script>
+    <script type="module">
+        import {downloadByContent} from '../js/utils.js';
         function download(url) {
-            const req = new XMLHttpRequest();
-            req.open("GET", url, true);
-            req.responseType = "blob";
-            req.withCredentials = true;   
-            req.onload = function (oEvent) {
-                const content = req.response;
-                const aTag = document.createElement('a');
-                aTag.download = url.split('/').pop();
-                const blob = new Blob([content])
-                const blobUrl = URL.createObjectURL(blob);
-                aTag.href = blobUrl;
-                aTag.click();
-                URL.revokeObjectURL(blob);
-            };
-            req.send();
+            axios({
+                method: 'get',
+                url,
+                responseType: 'blob'
+            }).then(res => {
+                downloadByContent(res.data, url.split('/').pop());
+            }) 
         }
         oBtnDownload.onclick = function(){
             axios.get('http://localhost:8888/api/downloadUrl').then(res => {

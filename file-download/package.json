@@ -2,7 +2,6 @@
   "name": "file-download",
   "version": "1.0.0",
   "description": "",
-  "main": "1.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,5 +9,11 @@
   "author": "hua1995116 <qiufneghyf@gmail.com> (https://github.com/hua1995116)",
   "license": "MIT",
   "dependencies": {
+    "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
+    "koa-mount": "^4.0.0",
+    "koa-router": "^9.4.0",
+    "koa-static": "^5.0.0",
+    "mime": "^2.4.6"
   }
 }

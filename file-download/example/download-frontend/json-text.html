@@ -17,31 +17,15 @@
 }
 </textarea>
 <button id="jsonBtn">下载JSON</button>
-<script>
-    // function str2ab(str) {
-    //     var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
-    //     var bufView = new Uint16Array(buf);
-    //     for (var i=0, strLen=str.length; i < strLen; i++) {
-    //         bufView[i] = str.charCodeAt(i);
-    //     }
-    //     return buf;
-    // }
-    function downloadFun(obj, type, filename) {
-        const blob = new Blob([obj], {type});
-        const blobUrl = URL.createObjectURL(blob);
-        const aTag = document.createElement('a');
-        aTag.download = filename;
-        aTag.href = blobUrl;
-        aTag.click();
-        URL.revokeObjectURL(blob);
-    }
+<script type="module">
+    import {downloadByContent} from '../js/utils.js';
     textBtn.onclick = () => {
         const value = text.value;
-        downloadFun(value, 'text/plain', 'hello.txt');
+        downloadByContent(value, 'text/plain', 'hello.txt');
     }
     jsonBtn.onclick = () => {
         const value = json.value;
-        downloadFun(value, 'application/json', 'hello.json');
+        downloadByContent(value, 'application/json', 'hello.json');
     }
 </script>
 </body>

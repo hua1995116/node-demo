@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>doc</title>
+</head>
+<body>
+    <div id="word">
+        <h1>welcome</h1>
+        <p>秋风的笔记</p>
+    </div>
+    <button id="exportWord">导出word</button>
+<script type="module">
+import {downloadByContent} from '../js/utils.js';
+exportWord.onclick = () => {
+    const template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" '
+            +'xmlns:x="urn:schemas-microsoft-com:office:word" '
+            +'xmlns="http://www.w3.org/TR/REC-html40">'
+            +'<head>'
+            +'</head>'
+            +'<body>{table}<\/body>'
+            +'<\/html>';
+    const context = template.replace('{table}', document.getElementById('word').innerHTML);
+    downloadByContent(context, 'qiufeng.blue.docx', 'application/msword');
+}
+</script>
+</body>
+</html>

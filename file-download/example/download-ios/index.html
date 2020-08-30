@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>download-ios</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+</head>
+<body>
+    <button id="download-ios" data-clipboard-text="http://localhost:8888/static/1597375650384.jpg">下载</button>
+<script type="module">
+import {downloadDirect} from '../js/utils.js';
+const btn = document.querySelector('#download-ios');
+if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+    const clipboard = new ClipboardJS(btn);
+    clipboard.on('success', function () {
+        alert('已复制链接，打开浏览器粘贴链接下载');
+    });
+    clipboard.on('error', function (e) {
+        alert('系统版本过低，复制链接失败');
+    });
+} else {
+    btn.onclick = () => {
+        downloadDirect(btn.dataset.clipboardText)
+    }
+}
+
+</script>
+</body>
+</html>

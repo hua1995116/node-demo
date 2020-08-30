@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+    <script src="https://unpkg.com/docx@5.0.2/build/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+</head>
+
+<body>
+    <button type="button" onclick="generate()">下载word</button>
+    <script>
+        async function generate() {
+            const res = await axios({
+                method: 'get',
+                url: '../../static/1597375650384.jpg',
+                responseType: 'blob'
+            })
+            const doc = new docx.Document();
+            const image1 = docx.Media.addImage(doc, res.data, 300, 400)
+            doc.addSection({
+                properties: {},
+                children: [
+                    new docx.Paragraph({
+                        children: [
+                            new docx.TextRun("欢迎关注[秋风的笔记]公众号").break(),
+                            new docx.TextRun("").break(),
+                            new docx.TextRun("定期发送优质文章").break(),
+                            new docx.TextRun("").break(),
+                            new docx.TextRun("美团点评2020校招-内推").break(),
+                        ],
+                    }),
+                    new docx.Paragraph(image1),
+                ],
+            }); 
+
+            docx.Packer.toBlob(doc).then(blob => {
+                console.log(blob);
+                saveAs(blob, "qiufeng.blue.docx");
+                console.log("Document created successfully");
+            });
+        }
+    </script>
+
+</body>
+
+</html>
