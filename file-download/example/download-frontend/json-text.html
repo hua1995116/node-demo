@@ -21,11 +21,11 @@
     import {downloadByContent} from '../js/utils.js';
     textBtn.onclick = () => {
         const value = text.value;
-        downloadByContent(value, 'text/plain', 'hello.txt');
+        downloadByContent(value, 'hello.txt', 'text/plain');
     }
     jsonBtn.onclick = () => {
         const value = json.value;
-        downloadByContent(value, 'application/json', 'hello.json');
+        downloadByContent(value, 'hello.json', 'application/json');
     }
 </script>
 </body>
