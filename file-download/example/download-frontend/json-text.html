@@ -18,14 +18,17 @@
 </textarea>
 <button id="jsonBtn">下载JSON</button>
 <script type="module">
-    import {downloadByContent} from '../js/utils.js';
+    import {downloadByContent, downloadByDataURL} from '../js/utils.js';
     textBtn.onclick = () => {
         const value = text.value;
         downloadByContent(value, 'hello.txt', 'text/plain');
+        // downloadByDataURL(value, 'hello.txt', 'text/plain');
+
     }
     jsonBtn.onclick = () => {
         const value = json.value;
         downloadByContent(value, 'hello.json', 'application/json');
+        // downloadByDataURL(value, 'hello.json', 'application/json');
     }
 </script>
 </body>

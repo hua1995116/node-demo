@@ -15,6 +15,14 @@ export function downloadByContent(content, filename, type) {
     URL.revokeObjectURL(blob);
 }
 
+export function downloadByDataURL(content, filename, type) {
+    const aTag = document.createElement('a');
+    aTag.download = filename;
+    const dataUrl = `data:${type};base64,${window.btoa(unescape(encodeURIComponent(content)))}`;
+    aTag.href = dataUrl;
+    aTag.click();
+}
+
 export function downloadByBlob(blob, filename) {
     const aTag = document.createElement('a');
     aTag.download = filename;
