@@ -82,7 +82,6 @@ router.get('/api/rangeFile', async(ctx) => {
     const { start, end } = getRange(range);
     if (start >= size || end >= size) {
         ctx.response.status = 416;
-        ctx.set('Content-Range', `bytes */${size}`);
         ctx.body = '';
         return;
     }

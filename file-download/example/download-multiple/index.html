@@ -8,19 +8,19 @@
 </head>
 <button id="download1">串行下载</button>
 <button id="download2">多线程下载</button>
+
 <body>
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
     <script>
         // buffer 合并 https://stackoverflow.com/questions/39502374/javascript-combine-arraybuffer-parts
         // https://louiswt.github.io/2019/06/10/browser-binary/
-        function download(url, start, end, i) {
+        function downloadRange(url, start, end, i) {
             return new Promise((resolve, reject) => {
                 const req = new XMLHttpRequest();
                 req.open("GET", url, true);
                 req.setRequestHeader('range', `bytes=${start}-${end}`)
                 req.responseType = "blob";
                 req.onload = function (oEvent) {
-                    console.log(req.response);
                     req.response.arrayBuffer().then(res => {
                         resolve({
                             i,
@@ -31,11 +31,10 @@
                 req.send();
             })
         }
+        // 合并buffer
         function concatenate(resultConstructor, arrays) {
-            console.log(arrays);
             let totalLength = 0;
             for (let arr of arrays) {
-                console.log(arr, arr.length);
                 totalLength += arr.length;
             }
             let result = new resultConstructor(totalLength);
@@ -46,8 +45,12 @@
             }
             return result;
         }
-        const m = 1024 * 1024;
-        const url = 'http://localhost:8888/api/rangeFile?filename=360_0388.jpg';
+        // const m = 1024 * 400;
+        // const m = 1024 * 700
+        const m = 1024 * 100;
+        // const url = 'http://localhost:8888/api/rangeFile?filename=360_0388.jpg';
+        // const url = 'https://limit.qiufeng.com/static/360_0388.jpg';
+        const url = 'https://limit.qiufeng.com/static/360_0388.jpg';
         download1.onclick = () => {
             console.time("直接下载");
             function download(url) {
@@ -74,34 +77,33 @@
                 url,
                 method: 'head',
             }).then((res) => {
+                // 获取长度来进行分割块
                 console.time("并发下载");
-                console.log(res.headers['content-length']);
                 const size = Number(res.headers['content-length']);
                 const length = parseInt(size / m);
                 const arr = []
-                for (let i = 0; i < length; i++) {
+                for (let i = 0; i <= length; i++) {
                     let start = i * m;
-                    let end = (i == length - 1) ?  size - 1  : (i + 1) * m - 1;
-                    console.log(start, end);
-                    arr.push(download(url, start, end, i))
+                    let end = (i == length) ? size - 1 : (i + 1) * m - 1;
+                    arr.push(downloadRange(url, start, end, i))
                 }
                 Promise.all(arr).then(res => {
+                    // console.time('合并数据');
                     const arrBufferList = res.sort(item => item.i - item.i).map(item => new Uint8Array(item.buffer));
-                    console.log(arrBufferList);
                     const allBuffer = concatenate(Uint8Array, arrBufferList);
-                    console.log(allBuffer);
-                    const blob = new Blob([allBuffer], {type: 'image/jpeg'});
+                    const blob = new Blob([allBuffer], { type: 'image/jpeg' });
                     const blobUrl = URL.createObjectURL(blob);
                     const aTag = document.createElement('a');
                     aTag.download = '360_0388.jpg';
                     aTag.href = blobUrl;
                     aTag.click();
                     URL.revokeObjectURL(blob);
+                    // console.timeEnd('合并数据');
                     console.timeEnd("并发下载");
                 })
             })
         }
-        
+
     </script>
 </body>
 
