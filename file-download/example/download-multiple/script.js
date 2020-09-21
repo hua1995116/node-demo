@@ -1,6 +1,6 @@
 var m = 1024 * 1024 * 10; // 分片大小
 var url =
-  "https://vodm0pihssv.vod.126.net/edu-video/nos/mp4/2017/10/10/1007299069_2cddd54a92e344639ad9669a2e0109ed_sd.mp4?ak=7909bff134372bffca53cdc2c17adc27a4c38c6336120510aea1ae1790819de8d2ef4505d83722610dfaae0bfa0802d4bb956d0e73a68017de6a1fee400aefcb3059f726dc7bb86b92adbc3d5b34b1326b89e2d736ad927f650160a444ba7810b108680c195ae7aedbefcbd824e55924"; // 下载url
+  "https://vodm0pihssv.vod.126.net/edu-video/nos/mp4/2017/10/10/1007299069_2cddd54a92e344639ad9669a2e0109ed_sd.mp4"; // 下载url
 var donwloadName = "3.mp4"; // 下载文件名
 const script = document.createElement("script");
 script.src = "https://cdn.bootcss.com/axios/0.19.2/axios.min.js";
@@ -71,10 +71,10 @@ axios({
     return result;
   }
 
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i <= length; i++) {
     let start = i * m;
-    let end = i == length - 1 ? size - 1 : (i + 1) * m - 1;
-    arr.push(downloadRange(url, start, end, i));
+    let end = (i == length) ? size - 1 : (i + 1) * m - 1;
+    arr.push(downloadRange(url, start, end, i))
   }
   Promise.all(arr).then((res) => {
     const arrBufferList = res
