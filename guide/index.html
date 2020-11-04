@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novice guide</title>
+    <meta description="" />
+    <style>
+        .guide-mask {
+            z-index: 999999;
+            background-color: #000;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            position: fixed;
+            opacity: 0.8;
+        }
+
+        .guide-helper-layer {
+            position: absolute;
+            z-index: 9999998;
+            background-color: #FFF;
+            background-color: rgba(255, 255, 255, .9);
+            border-radius: 4px;
+        }
+
+        .guide-content {
+            position: absolute;
+            z-index: 10000000;
+            background-color: transparent;
+        }
+
+        .guide-mark-relative {
+            position: relative;
+            z-index: 9999999 !important;
+        }
+
+        .guide-mark-fixed {
+            position: fixed;
+            z-index: 9999999 !important;
+        }
+
+        .guide-mark-absolute {
+            position: absolute;
+            z-index: 9999999 !important;
+        }
+
+        .tooltip-box {
+            min-width: 100px;
+            height: 26px;
+            line-height: 26px;
+            background: white;
+            position: absolute;
+            border-radius: 40px;
+            padding: 5px 15px;
+            font-size: 14px;
+        }
+
+        .tooltip-box:before {
+            content: "";
+            position: absolute;
+            right: 100%;
+            top: -10px;
+            left: 20%;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 13px solid white;
+        }
+
+        .skill span {
+            padding: 0 10px;
+            background: burlywood;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>秋风的笔记</h2>
+    <div class="skill guide-mark-relative">
+        <span id="love">JavaScript</span>
+        <span>Node.js</span>
+        <span>Webpack</span>
+        <span>React</span>
+        <span>Vue</span>
+        <span>Nginx</span>
+        <span>...</span>
+    </div>
+    <div class="guide-mask"></div>
+    <div class="guide-helper-layer" style="width: 472px; height:58px; top:55px;left: 36px;">
+        <div class='tooltip-box'>
+            秋风的技能
+        </div>
+    </div>
+    <script>
+        const guideTarget = document.querySelector('.skill')
+        const tooltip = document.querySelector('.tooltip-box')
+        var rect = guideTarget.getBoundingClientRect()
+        const helperLayer = document.querySelector('.guide-helper-layer')
+        helperLayer.style.left = rect.left - 3 + 'px'
+        helperLayer.style.top = rect.top - 3 + 'px'
+        helperLayer.style.width = rect.width + 3 * 2 + 'px'
+        helperLayer.style.height = rect.height + 3 * 2 + 'px'
+        tooltip.style.top = rect.height + 3 * 2 + 10 + 5 + 'px'
+
+    </script>
+</body>
+
+</html>
