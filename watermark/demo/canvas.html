@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>element-watermark</title>
+<style>
+.watermark {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    pointer-events: none;
+    background-repeat: repeat;
+}
+</style>
+</head>
+
+<body>
+    <div class="app">
+        <h1>秋风</h1>
+        <p>hello</p>
+
+    </div>
+    <script>
+        function createWaterMark() {
+            const angle = -20;
+            const txt = '秋风的笔记'
+            const canvas = document.createElement('canvas');
+            canvas.width = 180;
+            canvas.height = 100;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 180, 100);
+            ctx.fillStyle = '#000';
+            ctx.globalAlpha = 0.1;
+            ctx.font = `16px serif`
+            ctx.rotate(Math.PI / 180 * angle);
+            ctx.fillText(txt, 0, 50);
+            return canvas.toDataURL();
+        }
+        const watermakr = document.createElement('div');
+        watermakr.className = 'watermark';
+        watermakr.style.backgroundImage = `url(${createWaterMark()})`
+        document.body.appendChild(watermakr);
+    </script>
+</body>
+
+</html>

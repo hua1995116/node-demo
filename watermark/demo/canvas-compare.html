@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas-dark-watermark</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="900" height="838"></canvas>
+    <canvas id="canvas2" width="900" height="838"></canvas>
+    <script>
+        var a = [];
+        function decodeImg(src, id) {
+            var ctx = document.getElementById(id).getContext('2d');
+            var img = new Image();
+            var originalData;
+            img.onload = function () {
+                // 获取指定区域的canvas像素信息
+                ctx.drawImage(img, 0, 0);
+                originalData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+                console.log(originalData)
+                a.push(originalData);
+                if(a.length === 2) {
+                    console.log(a[0] === a[1])
+                }
+            };
+            img.src = src;
+        }
+        decodeImg('./water-gao.jpg', 'canvas')
+        decodeImg('./water-yuan.jpeg', 'canvas2')
+
+    </script>
+</body>
+
+</html>
