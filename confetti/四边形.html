@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo</title>
+</head>
+<style>
+  html,
+  body {
+    background: #000;
+    width: 100vw;
+    height: 100vh;
+  }
+</style>
+
+<body>
+
+  <script>
+    function getCanvas(zIndex) {
+      var canvas = document.createElement('canvas');
+
+      canvas.style.position = 'fixed';
+      canvas.style.top = '0px';
+      canvas.style.left = '0px';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = zIndex;
+
+      return canvas;
+    }
+    function setCanvasWindowSize(canvas) {
+      canvas.width = document.documentElement.clientWidth;
+      canvas.height = document.documentElement.clientHeight;
+    }
+    const canvas = getCanvas(100);
+    setCanvasWindowSize(canvas);
+    document.body.appendChild(canvas);
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = 'rgba(2, 255, 255, 1)';
+    context.beginPath();
+
+    var point1 = { x: 0, y: 0 }
+    var point2 = { x: 0, y: 20 }
+    var point3 = { x: 20, y: 20 }
+    var point4 = { x: 20, y: 0 }
+
+    context.moveTo(Math.floor(point1.x), Math.floor(point1.y));
+    context.lineTo(Math.floor(point2.x), Math.floor(point2.y));
+    context.lineTo(Math.floor(point3.x), Math.floor(point3.y));
+    context.lineTo(Math.floor(point4.x), Math.floor(point4.y));
+
+    context.closePath();
+    context.fill();
+
+  </script>
+</body>
+
+</html>

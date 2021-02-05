@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo</title>
+</head>
+<style>
+  html,
+  body {
+    background: #000;
+    width: 100vw;
+    height: 100vh;
+  }
+</style>
+
+<body>
+
+  <script>
+    var raf = (function () {
+      var TIME = Math.floor(1000 / 60);
+      var frame, cancel;
+      var frames = {};
+      var lastFrameTime = 0;
+
+      if (typeof requestAnimationFrame === 'function' && typeof cancelAnimationFrame === 'function') {
+        frame = function (cb) {
+          var id = Math.random();
+
+          frames[id] = requestAnimationFrame(function onFrame(time) {
+            if (lastFrameTime === time || lastFrameTime + TIME - 1 < time) {
+              lastFrameTime = time;
+              delete frames[id];
+
+              cb();
+            } else {
+              frames[id] = requestAnimationFrame(onFrame);
+            }
+          });
+
+          return id;
+        };
+        cancel = function (id) {
+          if (frames[id]) {
+            cancelAnimationFrame(frames[id]);
+          }
+        };
+      } else {
+        frame = function (cb) {
+          return setTimeout(cb, TIME);
+        };
+        cancel = function (timer) {
+          return clearTimeout(timer);
+        };
+      }
+
+      return { frame: frame, cancel: cancel };
+    }());
+    function toDecimal(str) {
+      return parseInt(str, 16);
+    }
+
+    function getCanvas(zIndex) {
+      var canvas = document.createElement('canvas');
+
+      canvas.style.position = 'fixed';
+      canvas.style.top = '0px';
+      canvas.style.left = '0px';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = zIndex;
+
+      return canvas;
+    }
+
+    function setCanvasWindowSize(canvas) {
+      canvas.width = document.documentElement.clientWidth;
+      canvas.height = document.documentElement.clientHeight;
+    }
+    var canvas = getCanvas(100);
+    setCanvasWindowSize(canvas);
+    document.body.appendChild(canvas);
+    var context = canvas.getContext('2d');
+
+
+    var fetti = {
+      "x": 445,
+      "y": 541,
+      "angle2D": 3 / 2 * Math.PI + 1 / 6 * Math.PI,
+      "color": {r: 20, g: 30, b: 50},
+      "tick": 0,
+      "totalTicks": 200,
+      "decay": 0.9,
+      "gravity": 3,
+      "velocity": 50,
+      "tiltAngle": Math.PI / 4,
+    }
+    var animationFrame = null;
+    const update = () => {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = 'rgba(2, 255, 255, 1)';
+      context.beginPath();
+
+      fetti.velocity *= fetti.decay;
+      fetti.tiltAngle += 0.1 // 不断给这个四边形变化角度
+
+      var length = 10;
+
+      var x1 = fetti.x;
+      var y1 = fetti.y;
+
+      var x2 = fetti.x + (length * Math.sin(fetti.tiltAngle));// 第二个点
+      var y2 = fetti.y + (length * Math.cos(fetti.tiltAngle)); // 第二个点
+
+      var x3 = x2 + 10;
+      var y3 = y2;
+
+      var x4 = fetti.x + length;
+      var y4 = fetti.y;
+
+
+      context.moveTo(Math.floor(x1), Math.floor(y1));
+      context.lineTo(Math.floor(x2), Math.floor(y2));
+      context.lineTo(Math.floor(x3), Math.floor(y3));
+      context.lineTo(Math.floor(x4), Math.floor(y4));
+
+      context.closePath();
+      context.fill();
+      animationFrame = raf.frame(update);
+    }
+
+    animationFrame = raf.frame(update);
+
+
+
+
+  </script>
+</body>
+
+</html>
