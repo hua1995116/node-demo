@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html style="width: 100%;height: 100%">
+<head>
+    <script src="https://cdn.bootcdn.net/ajax/libs/lottie-web/5.7.8/lottie.min.js"></script>
+</head>
+<body>
+<div class="bodymovin"></div>
+<script>
+    const animation = window.bodymovin.loadAnimation({
+        container: document.querySelector('.bodymovin'), // 要包含该动画的dom元素
+        renderer: 'svg', // 渲染方式，svg、canvas、html（轻量版仅svg渲染）
+        loop: true, // 是否循环播放
+        autoplay: true, // 是否自动播放
+        path: './bomb.json', // 动画json文件路径
+    });
+</script>
+</body>
+</html>

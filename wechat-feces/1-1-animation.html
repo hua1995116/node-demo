@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cdn-animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.7.0/Tween.js"></script>
+</head>
+
+<body>
+    <script>
+        var box = document.createElement('div');
+        box.style.setProperty('background-color', '#008800');
+        box.style.setProperty('width', '10px');
+        box.style.setProperty('height', '10px');
+        box.style.setProperty('transform', 'translate(' + 300 + 'px, ' + 300 + 'px)');
+        document.body.appendChild(box);
+
+        function animate(time) {
+            requestAnimationFrame(animate);
+            TWEEN.update(time);
+        }
+        requestAnimationFrame(animate);
+
+        var H = 100;
+
+        var coords = { x: 300 };
+        var tween = new TWEEN.Tween(coords)
+            .to({ x: 0 }, 1000)
+            .easing(TWEEN.Easing.Linear.None)
+            .onUpdate(function () {
+                var c = H;
+                var a = 5 / (6 * H);
+                var b = -11 / 6;
+                var x = coords.x;
+                var y = a * x * x + b * x + c;
+                box.style.setProperty('transform', 'translate(' + x + 'px, ' + y + 'px)');
+            })
+            .start();
+    </script>
+</body>
+
+</html>

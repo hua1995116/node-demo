@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cdn-animation</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/lottie-web/5.7.8/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.7.0/Tween.js"></script>
+</head>
+<style>
+    html,
+    body {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .feces {
+        position: absolute;
+        background-image: url(./feces.png);
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 80px;
+        height: 80px;
+        transform-origin: center;
+    }
+</style>
+
+<body>
+    <!-- <div class="feces"></div> -->
+
+    <script>
+        const center = 150;
+        const length = 80;
+        function animate(time) {
+            requestAnimationFrame(animate);
+            TWEEN.update(time);
+        }
+        requestAnimationFrame(animate);
+
+        function createfeces(scale) {
+            const fece = document.createElement('div');
+            fece.className = 'feces';
+            const symbol = Math.random() > 0.5 ? 1 : -1;
+            // fece.style.transform = `scale(${scale}) rotate(${symbol * 20 * Math.random()}deg)`
+            fece.style.transform = `scale(${scale})`
+            fece.style.opacity = '0';
+            return fece;
+        }
+
+        function initFece(end) {
+            const dis = Math.sqrt((end.x - 150) * (end.x - 150) + (end.y - 150) * (end.y - 150));
+            const r = Math.pow(2 / 3, dis / length);
+            const fece = createfeces(r);
+            document.body.appendChild(fece);
+
+            const start = { x: 0, y: 100, z: 0 };
+            var tween = new TWEEN.Tween(start)
+                .to({ ...end, z: 1 }, 100)
+                .easing(TWEEN.Easing.Linear.None)
+                .onUpdate(function () {
+                    fece.style.setProperty('top', `${start.y}px`);
+                    fece.style.setProperty('left', `${start.x}px`);
+                    fece.style.setProperty('opacity', `${start.z}`);
+                })
+                .onComplete(function () {
+                    // fece.classList.add('down');
+                })
+            return tween;
+        }
+        [
+            // { x: 150 - 15 * Math.random(), y: 150 - 15 * Math.random() },
+            { x: 150, y: 150 },
+            ...randomPosition(6).map(item => ({ x: item.x + 150, y: item.y + 150 }))
+        ].forEach(item => {
+            initFece(item).start();
+        })
+
+        function randomPosition(num) {
+            // const length = 80;
+            const randomX = Math.random() * 2 * length - length;
+            const y = Math.round(Math.sqrt(length * length - randomX * randomX));
+            const radian = Math.atan(y / randomX);
+
+            const step = Math.PI * 2 / num;
+
+            return new Array(num).fill(0).map((item, index) => {
+                const r = (index * step + radian)
+                const tr = r > Math.PI * 2 ? r - Math.PI * 2 : r < 0 ? r + Math.PI * 2 : r;
+                return {
+                    x: length * Math.sin(tr),
+                    y: length * Math.cos(tr)
+                    // x: length * Math.sin(tr) + (Math.random() > 0.5 ? 1 : -1) * 10 * Math.random(),
+                    // y: length * Math.cos(tr) + (Math.random() > 0.5 ? 1 : -1) * 10 * Math.random(),
+                }
+            })
+
+        }
+        // console.log(randomPosition(6));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cdn-animation</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/lottie-web/5.7.8/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.7.0/Tween.js"></script>
+</head>
+<style>
+html, body{
+    width: 100vw;
+    width: 100vh;
+}
+.bodymovin {
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    transform: translate(-30%, 0);
+    top: 50px;
+    left: 0;
+}
+</style>
+<body>
+    <div class="bodymovin"></div>
+
+    <script>
+        fetch('./bomb.json')
+            .then(data => {
+                console.log(data);
+                
+                renderBomb(() => {
+                    const animation = window.bodymovin.loadAnimation({
+                        container: document.querySelector('.bodymovin'), // 要包含该动画的dom元素
+                        renderer: 'svg', // 渲染方式，svg、canvas、html（轻量版仅svg渲染）
+                        loop: false, // 是否循环播放
+                        autoplay: false, // 是否自动播放
+                        path: './bomb.json', // 动画json文件路径
+                    });
+                    animation.play();
+                    animation.addEventListener('complete', () => {
+                        animation.destroy()
+                    })
+                })
+            })
+        function renderBomb(cb) {
+            var box = document.createElement('div');
+            box.style.setProperty('width', '20px');
+            box.style.setProperty('height', '20px');
+            box.style.setProperty('background-position', 'center');
+            box.style.setProperty('background-size', '100%');
+            box.style.setProperty('background-image', 'url(./bomb.png)');
+            box.style.setProperty('transform', 'translate(' + 300 + 'px, ' + 300 + 'px)');
+            document.body.appendChild(box);
+
+            function animate(time) {
+                requestAnimationFrame(animate);
+                TWEEN.update(time);
+            }
+            requestAnimationFrame(animate);
+
+            var H = 100;
+
+            var coords = { x: 300, y: 0 };
+            var tween = new TWEEN.Tween(coords)
+            .to({ x: 0, y: 360 }, 1000)
+            .easing(TWEEN.Easing.Linear.None)
+            .onUpdate(function () {
+                var c = H;
+                var a = 5 / (6 * H);
+                var b = -11 / 6;
+                var x = coords.x;
+                var y = a * x * x + b * x + c;
+                console.log(coords.y);
+                box.style.setProperty('transform', `translate(${x}px, ${y}px) rotate(${coords.y}deg)`);
+                // box.style.setProperty('transform', `rotate(${coords.y}deg)`);
+            })
+            .start()
+            .onComplete(function () {
+                box.style.setProperty('display', 'none');
+                tween.stop();
+                cb && cb()
+            })
+        }
+
+    </script>
+</body>
+
+</html>
