@@ -1,0 +1,3 @@
+cd demo
+
+npx webpack
