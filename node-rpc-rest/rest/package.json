@@ -10,7 +10,7 @@
   "author": "hua1995116 <qiufneghyf@gmail.com> (https://github.com/hua1995116)",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "koa": "^2.11.0",
     "koa-router": "^8.0.8"
   }
